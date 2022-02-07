@@ -7,8 +7,8 @@
  * The program receives two arguments as input - the name of the file to read and the file to write.
  * This implementation assumes that the entries in the CSV file are separated
  * by the ";" symbol. It is also assumed that the entries in the file are in
- * the same order in which they were presented in in the task.
- * Cunction calls are not protected by the try catch block.
+ * the same order in which they were presented in the task.
+ * Function calls are not protected by the try-catch block.
 */
 
 #ifndef LAB1_H
@@ -18,6 +18,9 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+
+#define ERROR -1
+#define SUCCESS 0
 
 enum e_sex
 {
@@ -39,8 +42,9 @@ void open_files(int argc, char **argv, std::ifstream &in, std::ofstream &out);
 
 std::vector<std::string> split(const std::string &str, char delim);
 
-/* Reads data from a file and writes it to a vector of employee structures */
-void parse_file(std::ifstream &file, std::vector<s_employee> &employees);
+/* Reads data from a file and writes it to a vector of employee structures.
+ * In case of an error, returns -1 */
+int parse_file(std::ifstream &file, std::vector<s_employee> &employees);
 
 /* To STDOUT */
 void print_vector(const std::vector<s_employee> &employees);

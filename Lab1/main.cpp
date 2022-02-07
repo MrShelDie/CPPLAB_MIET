@@ -55,18 +55,18 @@ std::vector<std::string> split(const std::string &str, char delim)
 	return (tokens);
 }
 
-void parse_file(std::ifstream &file, std::vector<s_employee> &employees)
+int parse_file(std::ifstream &file, std::vector<s_employee> &employees)
 {
 	std::string					string;
 	std::vector<std::string>	tokens;
 
+	/* unprotected function call */
+	std::getline(file, string);
 	while (!file.eof())
 	{
-		/* unprotected function call */
-		std::getline(file, string);
 		tokens = split(string, ';');
-		if (tokens.empty())
-			return ;
+		if (tokens.size() != 4)
+			return (ERROR);
 		/* unprotected function call */
 		employees.push_back(s_employee {
 			static_cast<unsigned int>(std::stoi(tokens[0])),
@@ -74,7 +74,10 @@ void parse_file(std::ifstream &file, std::vector<s_employee> &employees)
 			tokens[1],
 			static_cast<e_sex>(std::stoi(tokens[3]))
 		});
+		/* unprotected function call */
+		std::getline(file, string);
 	}
+	return (SUCCESS);
 }
 
 void print_vector(const std::vector<s_employee> &employees)
@@ -98,7 +101,13 @@ int main(int argc, char **argv)
 	std::vector<s_employee>		employees;
 
 	open_files(argc, argv, in, out);
-	parse_file(in, employees);
+	if (parse_file(in, employees) == -1)
+	{
+		in.close();
+		out.close();
+		std::cout << "Invalid data in file" << std::endl;
+		return (0);
+	}
 	print_vector(employees);
 	std::sort(employees.begin(), employees.end(), [](s_employee first, s_employee second){
 		return (first.birth_year < second.birth_year);
