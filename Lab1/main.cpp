@@ -1,37 +1,44 @@
 /*
- * Author:	Ivchenko Nikolay
- * Group:	IVT-21
- * Date:	07.02.2022
+ * Author:			Ivchenko Nikolay
+ * Group:			IVT-21
+ * Creation date:	07.02.2022
  * Variant:	2
  *
- * For all additional information, see the header file
+ * The program receives two arguments as input - the name of the file to read and the file to write.
+ * This implementation assumes that the entries in the CSV file are separated
+ * by the ";" symbol. It is also assumed that the entries in the file are in
+ * the same order in which they were presented in the task.
+ * Function calls are not protected by the try-catch block.
 */
 
-#include "Lab1.h"
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <algorithm>
 
-void open_files(int argc, char **argv, std::ifstream &in, std::ofstream &out)
+enum e_sex
+{
+	MALE,
+	FEMALE
+};
+
+struct s_employee
+{
+	unsigned int	nb;
+	unsigned int	birth_year;
+	std::string		full_name;
+	e_sex			sex;
+};
+
+bool checkArgs(int argc)
 {
 	if (argc != 3)
 	{
 		std::cout << "The number of arguments is not equal to 2" << std::endl
 				  << "usage: Lab1 [file_input] [file_output]" << std::endl;
-		std::exit(EXIT_SUCCESS);
+		return (false);
 	}
-
-	in.open(argv[1]);
-	if (!in.is_open())
-	{
-		std::cout << "Can not open " << argv[1] << std::endl;
-		std::exit(EXIT_SUCCESS);
-	}
-
-	out.open(argv[2], std::ios::out | std::ios::trunc);
-	if (!out.is_open())
-	{
-		in.close();
-		std::cout << "Can not open " << argv[2] << std::endl;
-		std::exit(EXIT_SUCCESS);
-	}
+	return (true);
 }
 
 std::vector<std::string> split(const std::string &str, char delim)
@@ -46,7 +53,6 @@ std::vector<std::string> split(const std::string &str, char delim)
 	end = str.find(delim, start);
 	while (end != std::string::npos)
 	{
-		/* unprotected function call */
 		tokens.push_back(str.substr(start, end - start));
 		start = end + 1;
 		end = str.find(delim, start);
@@ -55,65 +61,97 @@ std::vector<std::string> split(const std::string &str, char delim)
 	return (tokens);
 }
 
-int parse_file(std::ifstream &file, std::vector<s_employee> &employees)
+s_employee *parseLine(const std::string &line)
 {
-	std::string					string;
 	std::vector<std::string>	tokens;
 
-	/* unprotected function call */
-	std::getline(file, string);
-	while (!file.eof())
+	tokens = split(line, ';');
+	if (tokens.size() != 4)
+		return (NULL);
+
+	s_employee *employee = new s_employee
 	{
-		tokens = split(string, ';');
-		if (tokens.size() != 4)
-			return (ERROR);
-		/* unprotected function call */
-		employees.push_back(s_employee {
-			static_cast<unsigned int>(std::stoi(tokens[0])),
-			static_cast<unsigned int>(std::stoi(tokens[2])),
-			tokens[1],
-			static_cast<e_sex>(std::stoi(tokens[3]))
-		});
-		/* unprotected function call */
-		std::getline(file, string);
-	}
-	return (SUCCESS);
+		static_cast<unsigned int>(std::stoi(tokens[0])),
+		static_cast<unsigned int>(std::stoi(tokens[2])),
+		tokens[1],
+		static_cast<e_sex>(std::stoi(tokens[3]))
+	};
+
+	return (employee);
 }
 
-void print_vector(const std::vector<s_employee> &employees)
+std::vector<s_employee> parseFile(const std::string &file_path)
+{
+	std::string					line;
+	std::ifstream				file;
+	std::vector<s_employee>		employees;
+
+	file.open(file_path);
+	if (!file.is_open())
+	{
+		std::cout << "Can not open file: " << file_path << std::endl;
+		return (employees);
+	}
+
+	std::getline(file, line);
+	while (!file.eof())
+	{
+		s_employee *employee = parseLine(line);
+		if (!employee)
+		{
+			std::cout << "Invalid data in the file" << std::endl;
+			file.close();
+			employees.clear();
+			return (employees);
+		}
+		employees.push_back(*employee);
+		delete (employee);
+		std::getline(file, line);
+	}
+
+	file.close();
+	return (employees);
+}
+
+void writeVectorToStdout(const std::vector<s_employee> &employees)
 {
 	for (const auto &employee : employees)
 		std::cout << employee.nb << '\t' << employee.full_name << '\t'
 				  << employee.birth_year << '\t' << employee.sex << std::endl;
 }
 
-void write_vector(const std::vector<s_employee> &employees, std::ofstream &file)
+bool writeVectorToFile(const std::vector<s_employee> &employees, const std::string &file_path)
 {
+	std::ofstream	file;
+
+	file.open(file_path, std::ios::out | std::ios::trunc);
+	if (!file.is_open())
+	{
+		std::cout << "Can not open file: " << file_path << std::endl;
+		return (false);
+	}
+
 	for (const auto &employee : employees)
 		file << employee.nb << ';' << employee.full_name << ';'
 			 << employee.birth_year << ';' << employee.sex << std::endl;
+
+	file.close();
+	return (true);
 }
 
 int main(int argc, char **argv)
 {
-	std::ifstream				in;
-	std::ofstream				out;
 	std::vector<s_employee>		employees;
 
-	open_files(argc, argv, in, out);
-	if (parse_file(in, employees) == -1)
-	{
-		in.close();
-		out.close();
-		std::cout << "Invalid data in file" << std::endl;
+	if (!checkArgs(argc))
 		return (0);
-	}
-	print_vector(employees);
+	employees = parseFile(argv[1]);
+	if (employees.empty())
+		return (0);
+	writeVectorToStdout(employees);
 	std::sort(employees.begin(), employees.end(), [](s_employee first, s_employee second){
 		return (first.birth_year < second.birth_year);
 	});
-	write_vector(employees, out);
-	in.close();
-	out.close();
+	writeVectorToFile(employees, argv[2]);
 	return (0);
 }
