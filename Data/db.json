@@ -1,0 +1,13 @@
+[{
+		"id": 1,
+		"birth_year": 2002,
+		"full_name": "Nick",
+		"sex": 0
+	},
+	{
+		"id": 2,
+		"birth_year": 2001,
+		"full_name": "Nic",
+		"sex": 0
+	}
+]
