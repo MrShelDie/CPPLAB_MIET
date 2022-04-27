@@ -28,9 +28,11 @@ public:
 
     CSVReader& operator=(const CSVReader&) = delete;
     CSVReader operator=(CSVReader&& other);
+	operator bool() const override;
 
     virtual bool isOpen() const override { return fin.is_open(); };
-	virtual void readObject(UniversityMan &uman) override;
+	virtual bool eof() const override { return fin.eof(); };
+	virtual void readNextObject(UniversityMan &uman) override;
     virtual std::vector<UniversityMan> readAll() override;
 };
 

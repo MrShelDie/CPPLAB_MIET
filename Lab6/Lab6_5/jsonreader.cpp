@@ -5,6 +5,9 @@
 JSONReader::JSONReader(const QString &file_name)
 {
 	fin.open(file_name.toStdString());
+	json = nlohmann::json::parse(fin);
+	json_iterator = json.begin();
+	json_end = json.end();
 }
 
 JSONReader::JSONReader(JSONReader&& other)
@@ -24,37 +27,35 @@ JSONReader JSONReader::operator=(JSONReader&& other)
     return std::move(other);
 }
 
-// TODO
-void JSONReader::readObject(UniversityMan &uman)
+JSONReader::operator bool() const
 {
-	nlohmann::json json = nlohmann::json::parse(fin);
+	return !this->eof();
+}
+
+void JSONReader::readNextObject(UniversityMan &uman)
+{
+	if (json_iterator == json_end)
+		return;
+
+	int id = (*json_iterator)["id"];
+	int birth_year = (*json_iterator)["birth_year"];
+	std::string full_name = (*json_iterator)["full_name"];
+	e_sex sex = static_cast<e_sex>((*json_iterator)["sex"]);
+
+	if (id < 0 || birth_year < 0 || static_cast<int>(sex) < 0 || static_cast<int>(sex) > 1)
+		throw(ParseErrorExeption());
+
+	uman = UniversityMan(id, birth_year, full_name, sex);
+	json_iterator++;
 }
 
 std::vector<UniversityMan> JSONReader::readAll()
 {
-    std::vector<UniversityMan>  result;
+	UniversityMan				uman;
+	std::vector<UniversityMan>  result;
 
-    try
-    {
-		nlohmann::json json = nlohmann::json::parse(fin);
-		for (auto &elem : json)
-        {
-			int id = elem["id"];
-            int birth_year = elem["birth_year"];
-            std::string full_name = elem["full_name"];
-            e_sex sex = static_cast<e_sex>(elem["sex"]);
-
-			if (id < 0 || birth_year < 0 || static_cast<int>(sex) < 0 || static_cast<int>(sex) > 1)
-				throw(ParseErrorExeption());
-
-			UniversityMan uman(id, birth_year, full_name, sex);
-			result.push_back(uman);
-        }
-    }
-    catch (nlohmann::json::parse_error)
-    {
-        throw(ParseErrorExeption());
-    }
+	while (*this >> uman)
+		result.push_back(uman);
 
     return (result);
 }

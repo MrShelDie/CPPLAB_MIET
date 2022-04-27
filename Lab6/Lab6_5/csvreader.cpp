@@ -23,6 +23,11 @@ CSVReader CSVReader::operator=(CSVReader&& other)
     return std::move(other);
 }
 
+CSVReader::operator bool() const
+{
+	return !this->eof();
+}
+
 std::vector<std::string> CSVReader::split(const std::string& str, char delim)
 {
 	std::vector<std::string>	tokens;
@@ -64,7 +69,7 @@ UniversityMan CSVReader::parseLine(const std::string& line)
 	return (result);
 }
 
-void CSVReader::readObject(UniversityMan &uman)
+void CSVReader::readNextObject(UniversityMan &uman)
 {
 	std::string	line;
 
@@ -78,16 +83,11 @@ void CSVReader::readObject(UniversityMan &uman)
 
 std::vector<UniversityMan> CSVReader::readAll()
 {
+	UniversityMan				uman;
 	std::vector<UniversityMan>	result;
-    std::string                 line;
 
-    while(!fin.eof())
-    {
-        std::getline(fin, line);
-        if (line.empty())
-            continue;
-        UniversityMan employee = parseLine(line);
-        result.push_back(employee);
-    }
+	while (*this >> uman)
+		result.push_back(uman);
+
 	return (result);
 }

@@ -126,7 +126,7 @@ void MainWindow::sAddEmployee()
 
 void MainWindow::sSearchFile()
 {
-	db_name = QFileDialog::getOpenFileName(this, "Open file", "../Data", "(*.csv *.json)");
+	db_name = QFileDialog::getOpenFileName(this, "Open file", "../../Data", "(*.csv *.json)");
     if (db_name.endsWith(".csv"))
     {
         CSVReader csv(db_name);

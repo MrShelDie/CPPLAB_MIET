@@ -2,6 +2,6 @@
 
 AbstractReader& operator>>(AbstractReader &reader, UniversityMan &uman)
 {
-	reader.readObject(uman);
+	reader.readNextObject(uman);
 	return reader;
 }
