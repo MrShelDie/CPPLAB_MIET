@@ -1,0 +1,6 @@
+#include "json_parse_error_exception.h"
+
+const char* InvalidDataException::what() const throw()
+{
+    
+}

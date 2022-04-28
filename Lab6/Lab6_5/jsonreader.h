@@ -10,6 +10,7 @@
 class JSONReader : public AbstractReader
 {
 private:
+    bool                        isFileEnd;
 	std::ifstream				fin;
 	nlohmann::json				json;
 	nlohmann::json::iterator	json_iterator;
@@ -26,7 +27,7 @@ public:
 	operator bool() const override;
 
     virtual bool isOpen() const override { return fin.is_open(); };
-	virtual bool eof() const override { return json_iterator == json_end; };
+    virtual bool eof() const override { return isFileEnd; };
 	virtual void readNextObject(UniversityMan &uman) override;
     virtual std::vector<UniversityMan> readAll() override;
 };

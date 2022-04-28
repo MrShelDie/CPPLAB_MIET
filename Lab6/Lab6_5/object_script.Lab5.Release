@@ -1,0 +1,12 @@
+release/abstract_reader.o
+release/coloredqtextbrowser.o
+release/csvreader.o
+release/csvwriter.o
+release/jsonreader.o
+release/main.o
+release/mainwindow.o
+release/research_associate.o
+release/student.o
+release/teacher.o
+release/university_man.o
+release/moc_mainwindow.o

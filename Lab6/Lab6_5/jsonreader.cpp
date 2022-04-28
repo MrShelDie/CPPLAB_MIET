@@ -5,9 +5,12 @@
 JSONReader::JSONReader(const QString &file_name)
 {
 	fin.open(file_name.toStdString());
+
 	json = nlohmann::json::parse(fin);
 	json_iterator = json.begin();
 	json_end = json.end();
+
+    isFileEnd = json_iterator == json_end ? true : false;
 }
 
 JSONReader::JSONReader(JSONReader&& other)
@@ -34,8 +37,11 @@ JSONReader::operator bool() const
 
 void JSONReader::readNextObject(UniversityMan &uman)
 {
-	if (json_iterator == json_end)
+    if (json_iterator == json_end)
+    {
+        isFileEnd = true;
 		return;
+    }
 
 	int id = (*json_iterator)["id"];
 	int birth_year = (*json_iterator)["birth_year"];

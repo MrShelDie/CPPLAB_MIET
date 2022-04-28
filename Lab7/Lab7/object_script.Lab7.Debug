@@ -1,0 +1,13 @@
+debug/abstract_reader.o
+debug/coloredqtextbrowser.o
+debug/csvreader.o
+debug/csvwriter.o
+debug/jsonreader.o
+debug/main.o
+debug/mainwindow.o
+debug/parse_error_exeption.o
+debug/research_associate.o
+debug/student.o
+debug/teacher.o
+debug/university_man.o
+debug/moc_mainwindow.o

@@ -76,9 +76,10 @@ void CSVReader::readNextObject(UniversityMan &uman)
 	/* Skips blank lines */
 	do
 		std::getline(fin, line);
-	while (line.empty() && !fin.eof());
+    while (line.empty() && !fin.eof());
 
-	uman = parseLine(line);
+    if (!line.empty())
+        uman = parseLine(line);
 }
 
 std::vector<UniversityMan> CSVReader::readAll()
