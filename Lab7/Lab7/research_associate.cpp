@@ -7,8 +7,8 @@ ResearchAssociate::ResearchAssociate()
 
 ResearchAssociate::ResearchAssociate
 (
-		const std::string& _post,
-		const std::string& _researchScope
+	const std::string& _post,
+	const std::string& _researchScope
 )
 	: post(_post),
 	  research_scope(_researchScope)

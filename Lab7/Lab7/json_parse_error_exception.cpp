@@ -1,8 +1,9 @@
 #include "json_parse_error_exception.h"
 
-const char* JSONParseErrorException::what() const throw()
+JSONParseErrorException::JSONParseErrorException(const std::string &msg, int id)
 {
-    std::string text =
-            std::string("At byte")
-            + std::to_string()
+	this->msg = std::string("Object id ")
+			+ std::to_string(id)
+			+ std::string(" parse error: ")
+			+ msg;
 }

@@ -1,17 +1,20 @@
 #include "jsonreader.h"
 #include "nlohmann/json.hpp"
-#include "parse_error_exeption.h"
-#include "invalid_data_exception.h"
+#include "csv_parse_error_exeption.h"
+#include "json_parse_error_exception.h"
 
 JSONReader::JSONReader(const QString &file_name)
 {
-	fin.open(file_name.toStdString());
+	fin.exceptions( std::ifstream::failbit | std::ifstream::badbit );
 
+	fin.open(file_name.toStdString());
 	json = nlohmann::json::parse(fin);
+	fin.close();
+
 	json_iterator = json.begin();
 	json_end = json.end();
 
-    isFileEnd = json_iterator == json_end ? true : false;
+	isFileEnd = json_iterator == json_end ? true : false;
 }
 
 JSONReader::JSONReader(JSONReader&& other)
@@ -22,8 +25,7 @@ JSONReader::JSONReader(JSONReader&& other)
 
 JSONReader::~JSONReader()
 {
-    if (fin.is_open())
-        fin.close();
+
 }
 
 JSONReader JSONReader::operator=(JSONReader&& other)
@@ -49,13 +51,12 @@ void JSONReader::readNextObject(UniversityMan &uman)
 	std::string full_name = (*json_iterator)["full_name"];
 	e_sex sex = static_cast<e_sex>((*json_iterator)["sex"]);
 
-//	if (id < 0 || birth_year < 0 || static_cast<int>(sex) < 0 || static_cast<int>(sex) > 1)
-//		throw(ParseErrorExeption());
-
     if (id < 0)
-        throw InvalidDataException("ID less then zero");
+		throw JSONParseErrorException("ID less then 0", id);
     else if (birth_year < 0)
-        throw InvalidDataException("Birth year less then zero");
+		throw JSONParseErrorException("Birth year less then 0", id);
+	else if (static_cast<int>(sex) < 0 || static_cast<int>(sex) > 1)
+		throw JSONParseErrorException("Sex is not equal to 0 or 1", id);
 
 	uman = UniversityMan(id, birth_year, full_name, sex);
 	json_iterator++;

@@ -1,8 +1,9 @@
 #include "csvreader.h"
-#include "parse_error_exeption.h"
+#include "csv_parse_error_exeption.h"
 
 CSVReader::CSVReader(const QString &file_name)
 {
+	fin.exceptions( fin.failbit | fin.badbit );
     fin.open(file_name.toStdString());
 }
 
@@ -53,16 +54,20 @@ UniversityMan CSVReader::parseLine(const std::string& line)
 	std::vector<std::string>	tokens;
 
 	tokens = split(line, ';');
-//	if (tokens.size() != 4)
-//        throw(ParseErrorExeption());
+	if (tokens.size() != 4)
+		throw CSVParseErrorExeption("invalid syntax", line_nb);
 
 	const int			id			= std::stoi(tokens[0]);
 	const int			birth_year	= std::stoi(tokens[2]);
 	const std::string	full_name	= tokens[1];
 	const e_sex			sex			= static_cast<e_sex>(std::stoi(tokens[3]));
 
-//	if (id < 0 || birth_year < 0 || static_cast<int>(sex) < 0 || static_cast<int>(sex) > 1)
-//        throw(ParseErrorExeption());
+	if (id < 0)
+		throw CSVParseErrorExeption("ID less then 0", line_nb);
+	else if (birth_year < 0)
+		throw CSVParseErrorExeption("Birth year less then 0", line_nb);
+	else if (static_cast<int>(sex) < 0 || static_cast<int>(sex) > 1)
+		throw CSVParseErrorExeption("Sex is not equal to 0 or 1", line_nb);
 
 	UniversityMan result(id, birth_year, full_name, sex);
 
@@ -73,13 +78,20 @@ void CSVReader::readNextObject(UniversityMan &uman)
 {
 	std::string	line;
 
-	/* Skips blank lines */
-	do
-		std::getline(fin, line);
-    while (line.empty() && !fin.eof());
-
-    if (!line.empty())
-        uman = parseLine(line);
+	try
+	{
+		/* Skips blank lines */
+		while (std::getline(fin, line) && line.empty())
+			line_nb++;
+		line_nb++;
+		if (!line.empty())
+			uman = parseLine(line);
+	}
+	catch (std::ifstream::failure &e)
+	{
+		if (!fin.eof())
+			throw e;
+	}
 }
 
 std::vector<UniversityMan> CSVReader::readAll()

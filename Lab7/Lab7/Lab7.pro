@@ -11,13 +11,13 @@ CONFIG += c++11
 SOURCES += \
     abstract_reader.cpp \
     coloredqtextbrowser.cpp \
+    csv_parse_error_exeption.cpp \
     csvreader.cpp \
     csvwriter.cpp \
     json_parse_error_exception.cpp \
     jsonreader.cpp \
     main.cpp \
     mainwindow.cpp \
-    parse_error_exeption.cpp \
     research_associate.cpp \
     student.cpp \
     teacher.cpp \
@@ -26,13 +26,13 @@ SOURCES += \
 HEADERS += \
     abstract_reader.h \
     coloredqtextbrowser.h \
+    csv_parse_error_exeption.h \
     csvreader.h \
     csvwriter.h \
     json_parse_error_exception.h \
     jsonreader.h \
     mainwindow.h \
     nlohmann/json.hpp \
-    parse_error_exeption.h \
     research_associate.h \
     student.h \
     teacher.h \

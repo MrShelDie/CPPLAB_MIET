@@ -15,6 +15,7 @@ class CSVReader : public AbstractReader
 {
 private:
 	std::ifstream	fin;
+	int				line_nb = 0;
 
 private:
 	UniversityMan parseLine(const std::string& line);

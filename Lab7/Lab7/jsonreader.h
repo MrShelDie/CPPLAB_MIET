@@ -26,7 +26,7 @@ public:
     JSONReader operator=(JSONReader&&);
 	operator bool() const override;
 
-    virtual bool isOpen() const override { return fin.is_open(); };
+	virtual bool isOpen() const override { return !isFileEnd; };
     virtual bool eof() const override { return isFileEnd; };
 	virtual void readNextObject(UniversityMan &uman) override;
     virtual std::vector<UniversityMan> readAll() override;

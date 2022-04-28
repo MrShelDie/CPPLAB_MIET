@@ -1,5 +1,4 @@
 #include <QFileDialog>
-#include <ctime>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -7,7 +6,7 @@
 #include "csvreader.h"
 #include "jsonreader.h"
 #include "csvwriter.h"
-#include "parse_error_exeption.h"
+#include "csv_parse_error_exeption.h"
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -47,13 +46,8 @@ void MainWindow::setEnabledAllElements(bool is_enabled)
 
 void MainWindow::readFile(AbstractReader& reader)
 {
-    if (reader.isOpen())
-    {
-        employees = reader.readAll();
-        setEnabledAllElements(true);
-    }
-    else
-        ui->textBrowser->appendRed("Database access error");
+	employees = reader.readAll();
+	setEnabledAllElements(true);
 }
 
 void MainWindow::sFindEmployee()
@@ -97,17 +91,12 @@ void MainWindow::sAddEmployee()
 	const std::string	full_name = ui->name_input->text().toStdString();
 	const e_sex			sex = static_cast<e_sex>(ui->sex_input->currentIndex());
 
-	auto now = time(NULL);
-	auto local_time = localtime(&now);
-
-	const int max_age = 150;
-
 	if (id < 0)
 	{
 		ui->textBrowser->appendRed("Invalid ID\n");
 		return;
 	}
-	else if (birth_year < 1970 + local_time->tm_year - max_age)
+	else if (birth_year < 0)
 	{
 		ui->textBrowser->appendRed("Too much age\n");
 		return;
@@ -135,6 +124,10 @@ void MainWindow::sSearchFile()
         else
             ui->textBrowser->appendRed("Invalid file format");
     }
+	catch (std::ifstream::failure &e)
+	{
+		ui->textBrowser->appendRed("Error: can not open/read/close file");
+	}
     catch (std::exception &e)
     {
         ui->textBrowser->appendRed(e.what());
