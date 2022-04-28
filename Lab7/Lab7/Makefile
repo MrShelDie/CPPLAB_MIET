@@ -1585,59 +1585,6 @@ mainwindow.o: mainwindow.cpp /usr/include/qt/QtWidgets/QFileDialog \
 		abstract_reader.h \
 		university_man.h \
 		ui_mainwindow.h \
-		/usr/include/qt/QtCore/QVariant \
-		/usr/include/qt/QtWidgets/QApplication \
-		/usr/include/qt/QtWidgets/qapplication.h \
-		/usr/include/qt/QtCore/qcoreapplication.h \
-		/usr/include/qt/QtCore/qeventloop.h \
-		/usr/include/qt/QtWidgets/qdesktopwidget.h \
-		/usr/include/qt/QtGui/qguiapplication.h \
-		/usr/include/qt/QtGui/qinputmethod.h \
-		/usr/include/qt/QtWidgets/QComboBox \
-		/usr/include/qt/QtWidgets/qcombobox.h \
-		/usr/include/qt/QtWidgets/qabstractitemdelegate.h \
-		/usr/include/qt/QtWidgets/qstyleoption.h \
-		/usr/include/qt/QtWidgets/qabstractspinbox.h \
-		/usr/include/qt/QtGui/qvalidator.h \
-		/usr/include/qt/QtCore/qregularexpression.h \
-		/usr/include/qt/QtWidgets/qslider.h \
-		/usr/include/qt/QtWidgets/qabstractslider.h \
-		/usr/include/qt/QtWidgets/qstyle.h \
-		/usr/include/qt/QtWidgets/qtabbar.h \
-		/usr/include/qt/QtWidgets/qrubberband.h \
-		/usr/include/qt/QtWidgets/qframe.h \
-		/usr/include/qt/QtCore/qabstractitemmodel.h \
-		/usr/include/qt/QtWidgets/QHBoxLayout \
-		/usr/include/qt/QtWidgets/qboxlayout.h \
-		/usr/include/qt/QtWidgets/qlayout.h \
-		/usr/include/qt/QtWidgets/qlayoutitem.h \
-		/usr/include/qt/QtWidgets/qgridlayout.h \
-		/usr/include/qt/QtWidgets/QLabel \
-		/usr/include/qt/QtWidgets/qlabel.h \
-		/usr/include/qt/QtWidgets/QLineEdit \
-		/usr/include/qt/QtWidgets/qlineedit.h \
-		/usr/include/qt/QtGui/qtextcursor.h \
-		/usr/include/qt/QtGui/qtextformat.h \
-		/usr/include/qt/QtGui/qpen.h \
-		/usr/include/qt/QtGui/qtextoption.h \
-		/usr/include/qt/QtWidgets/QMenuBar \
-		/usr/include/qt/QtWidgets/qmenubar.h \
-		/usr/include/qt/QtWidgets/qmenu.h \
-		/usr/include/qt/QtWidgets/qaction.h \
-		/usr/include/qt/QtWidgets/qactiongroup.h \
-		/usr/include/qt/QtWidgets/QPushButton \
-		/usr/include/qt/QtWidgets/qpushbutton.h \
-		/usr/include/qt/QtWidgets/qabstractbutton.h \
-		/usr/include/qt/QtWidgets/QStatusBar \
-		/usr/include/qt/QtWidgets/qstatusbar.h \
-		/usr/include/qt/QtWidgets/QVBoxLayout \
-		/usr/include/qt/QtWidgets/QWidget \
-		coloredqtextbrowser.h \
-		/usr/include/qt/QtWidgets/QTextBrowser \
-		/usr/include/qt/QtWidgets/qtextbrowser.h \
-		/usr/include/qt/QtWidgets/qtextedit.h \
-		/usr/include/qt/QtWidgets/qabstractscrollarea.h \
-		/usr/include/qt/QtGui/qtextdocument.h \
 		csvreader.h \
 		jsonreader.h \
 		nlohmann/json.hpp \

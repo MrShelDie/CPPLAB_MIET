@@ -32,13 +32,13 @@ CSVReader::operator bool() const
 std::vector<std::string> CSVReader::split(const std::string& str, char delim)
 {
 	std::vector<std::string>	tokens;
-	size_t						start;
-	size_t						end;
 
 	if (str.empty())
 		return (tokens);
-	start = 0;
-	end = str.find(delim, start);
+
+	size_t start = 0;
+	size_t end = str.find(delim, start);
+
 	while (end != std::string::npos)
 	{
 		tokens.push_back(str.substr(start, end - start));
@@ -46,6 +46,7 @@ std::vector<std::string> CSVReader::split(const std::string& str, char delim)
 		end = str.find(delim, start);
 	}
 	tokens.push_back(str.substr(start, str.length() - start));
+
 	return (tokens);
 }
 
@@ -87,10 +88,20 @@ void CSVReader::readNextObject(UniversityMan &uman)
 		if (!line.empty())
 			uman = parseLine(line);
 	}
-	catch (std::ifstream::failure &e)
+	catch (const std::ifstream::failure &e)
 	{
 		if (!fin.eof())
 			throw e;
+	}
+	catch (const std::invalid_argument &e)
+	{
+		std::string msg = std::string("invalid argument: ") + std::string(e.what());
+		throw CSVParseErrorExeption(msg, line_nb);
+	}
+	catch (const std::out_of_range &e)
+	{
+		std::string msg = std::string("out of range error: ") + std::string(e.what());
+		throw CSVParseErrorExeption(msg, line_nb);
 	}
 }
 

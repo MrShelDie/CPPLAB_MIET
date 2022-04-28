@@ -108,28 +108,28 @@ void MainWindow::sAddEmployee()
 
 void MainWindow::sSearchFile()
 {
-    try
-    {
+	try
+	{
         db_name = QFileDialog::getOpenFileName(this, "Open file", "../../Data", "(*.csv *.json)");
-        if (db_name.endsWith(".csv"))
-        {
+		if (db_name.endsWith(".csv"))
+		{
             CSVReader csv(db_name);
             readFile(csv);
-        }
-        else if (db_name.endsWith(".json"))
-        {
+		}
+		else if (db_name.endsWith(".json"))
+		{
             JSONReader json(db_name);
             readFile(json);
-        }
-        else
+		}
+		else
             ui->textBrowser->appendRed("Invalid file format");
-    }
-	catch (std::ifstream::failure &e)
+	}
+	catch (const std::ifstream::failure &e)
 	{
 		ui->textBrowser->appendRed("Error: can not open/read/close file");
 	}
-    catch (std::exception &e)
-    {
+	catch (const std::exception &e)
+	{
         ui->textBrowser->appendRed(e.what());
     }
 }
