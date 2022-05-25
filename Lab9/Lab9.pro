@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     abstractshape.cpp \
+    circle.cpp \
     main.cpp \
     mainwindow.cpp \
     rectangle.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     abstractshape.h \
+    circle.h \
     mainwindow.h \
     rectangle.h \
     renderarea.h

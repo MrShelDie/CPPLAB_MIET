@@ -2,6 +2,7 @@
 #define RENDERAREA_H
 
 #include "rectangle.h"
+#include "circle.h"
 
 #include <QWidget>
 #include <QPainter>
