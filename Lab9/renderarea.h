@@ -1,14 +1,9 @@
 #ifndef RENDERAREA_H
 #define RENDERAREA_H
 
-#include "circle.h"
-#include "square.h"
-#include "triangle.h"
+#include "abstractshape.h"
 
 #include <QWidget>
-#include <QPainter>
-#include <QRectF>
-#include <memory>
 
 class RenderArea : public QWidget
 {
@@ -20,7 +15,7 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
 private:
-    std::list<std::unique_ptr<AbstractShape>>   shapes;
+    std::vector<std::unique_ptr<AbstractShape>>   shapes;
 
 signals:
 

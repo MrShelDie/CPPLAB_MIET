@@ -1,4 +1,7 @@
 #include "renderarea.h"
+#include "circle.h"
+#include "square.h"
+#include "triangle.h"
 
 RenderArea::RenderArea(QWidget *parent)
     : QWidget{parent}

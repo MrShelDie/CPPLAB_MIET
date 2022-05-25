@@ -3,8 +3,6 @@
 
 #include "abstractshape.h"
 
-#include <array>
-
 class Triangle : public AbstractShape
 {
 public:
