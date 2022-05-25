@@ -6,8 +6,6 @@
 class AbstractShape
 {
 public:
-    AbstractShape();
-
     virtual void draw(QPainter &painter) = 0;
 };
 
