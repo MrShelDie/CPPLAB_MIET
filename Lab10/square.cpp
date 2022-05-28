@@ -1,20 +1,16 @@
 #include "square.h"
 
-Square::Square(const QPoint &_pos, int _size)
-    : pos(_pos),
-      size(_size)
-{
-
-}
-
 void Square::draw(QPainter &painter)
 {
-    painter.setBrush(QBrush(Qt::black, Qt::SolidPattern));
-    painter.drawRect(pos.x(), pos.y(), size, size);
+    painter.setBrush(brush);
+    painter.setPen(pen);
+    painter.drawRect(pos.x(), pos.y(), sideLength, sideLength);
 }
 
 bool Square::isPointInside(const QPoint &point) const
 {
-    // TODO
+    if (point.x() >= pos.x() && point.x() <= pos.x() + sideLength
+            && point.y() >= pos.y() && point.y() <= pos.y() + sideLength)
+        return true;
     return false;
 }

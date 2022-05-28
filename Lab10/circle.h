@@ -6,14 +6,15 @@
 class Circle : public AbstractShape
 {
 public:
-    Circle(const QPoint &_center, int _radius);
+    Circle(const QPoint &_center, int _radius, QBrush _brush, QPen _pen)
+        : AbstractShape(_brush, _pen), center(_center), radius(_radius) {};
 
     void draw(QPainter &painter) override;
     bool isPointInside(const QPoint &point) const override;
 
 private:
-    QPoint center;
-    int   radius;
+    QPoint  center;
+    int     radius;
 };
 
 #endif // CIRCLE_H
