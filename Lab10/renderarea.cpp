@@ -43,8 +43,10 @@ void RenderArea::mouseMoveEvent(QMouseEvent *event)
 
 void RenderArea::mousePressEvent(QMouseEvent *event)
 {
-    for (const auto &item : shapes) {
-        if (item->isPointInside(event->pos()))
-            (*item).print();
+    if (event->button() == Qt::MiddleButton) {
+        for (const auto &item : shapes) {
+            if (item->isPointInside(event->pos()))
+                (*item).print();
+        }
     }
 }
