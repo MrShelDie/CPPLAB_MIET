@@ -9,8 +9,10 @@ public:
     Circle(const QPoint &_center, int _radius, QBrush _brush, QPen _pen)
         : AbstractShape(_brush, _pen), center(_center), radius(_radius) {};
 
+    void print() override;
     void draw(QPainter &painter) override;
     bool isPointInside(const QPoint &point) const override;
+
 
 private:
     QPoint  center;

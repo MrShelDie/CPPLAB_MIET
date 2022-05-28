@@ -3,6 +3,8 @@
 #include "square.h"
 #include "triangle.h"
 
+#include "iostream"
+
 RenderArea::RenderArea(QWidget *parent)
     : QWidget{parent}
 {
@@ -37,4 +39,12 @@ void RenderArea::mouseMoveEvent(QMouseEvent *event)
             item->setPenColor(Qt::black);
     }
     update();
+}
+
+void RenderArea::mousePressEvent(QMouseEvent *event)
+{
+    for (const auto &item : shapes) {
+        if (item->isPointInside(event->pos()))
+            (*item).print();
+    }
 }

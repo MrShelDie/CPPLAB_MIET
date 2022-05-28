@@ -1,12 +1,13 @@
 #include "triangle.h"
 
 #include <QPointF>
+#include <QTextStream>
 
 void Triangle::draw(QPainter &painter)
 {
     painter.setBrush(brush);
     painter.setPen(pen);
-    painter.drawPolygon(points.data() , points.size());
+    painter.drawPolygon(points.data(), points.size());
 }
 
 bool Triangle::isPointInside(const QPoint &P) const
@@ -36,3 +37,11 @@ bool Triangle::isPointInside(const QPoint &P) const
     return false;
 }
 
+void Triangle::print()
+{
+    QTextStream out(stdout);
+
+    out << "V1: (" << points[0].x() << "; " << points[0].y() << ")\n"
+        << "V2: (" << points[1].x() << "; " << points[1].y() << ")\n"
+        << "V3: (" << points[2].x() << "; " << points[2].y() << ")\n\n";
+}

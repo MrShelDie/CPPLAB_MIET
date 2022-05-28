@@ -15,7 +15,9 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *event) override;
+
     void mouseMoveEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
 
 private:
     std::list<std::unique_ptr<AbstractShape>>   shapes;

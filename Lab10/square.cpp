@@ -1,5 +1,7 @@
 #include "square.h"
 
+#include <QTextStream>
+
 void Square::draw(QPainter &painter)
 {
     painter.setBrush(brush);
@@ -13,4 +15,14 @@ bool Square::isPointInside(const QPoint &point) const
             && point.y() >= pos.y() && point.y() <= pos.y() + sideLength)
         return true;
     return false;
+}
+
+void Square::print()
+{
+    QTextStream out(stdout);
+
+    out << "V1: (" << pos.x() << "; " << pos.y() << ")\n"
+        << "V2: (" << pos.x() + sideLength << "; " << pos.y() << ")\n"
+        << "V3: (" << pos.x() + sideLength << "; " << pos.y() - sideLength << ")\n"
+        << "V4: (" << pos.x() << "; " << pos.y() - sideLength << ")\n\n";
 }

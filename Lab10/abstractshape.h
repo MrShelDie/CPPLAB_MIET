@@ -12,6 +12,7 @@ class AbstractShape
 public:
     AbstractShape(QBrush &_brush, QPen &_pen) : brush(_brush), pen(_pen) {};
 
+    virtual void print() = 0;
     virtual void draw(QPainter &painter) = 0;
     virtual bool isPointInside(const QPoint &point) const = 0;
 
